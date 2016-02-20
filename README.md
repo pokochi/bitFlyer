@@ -53,6 +53,7 @@ err, s := b.SendChildOrder(m)
 ## Todo
 
 * [新規の親注文を出す（特殊注文）](https://lightning.bitflyer.jp/docs#新規の親注文を出す特殊注文)の実装。
+* テストケース
 * エラー処理のリファクタ
 
 ## License
