@@ -1,6 +1,7 @@
 package bitFlyer
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
@@ -9,7 +10,6 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -24,7 +24,7 @@ type Lightning struct {
 	AccessSecret string
 }
 
-func (l *Lightning) Request(method string, path string, params map[string]string) (err error, s string) {
+func (l *Lightning) RequestPublic(method string, path string, params map[string]string) (err error, s string) {
 	if method != GET_METHOD {
 		return errors.New("Request Error"), ""
 	}
@@ -59,15 +59,20 @@ func (l *Lightning) RequestPrivate(method string, path string, params map[string
 		}
 	}
 
-	req, err := http.NewRequest(method, END_POINT+path, strings.NewReader(values.Encode()))
+	b := values.Encode()
+	req, err := http.NewRequest(method, END_POINT+path, bytes.NewBufferString(b))
 	if err != nil {
 		return errors.New("RequestPrivate NewRequest Error"), ""
 	}
 
 	t := strconv.FormatInt(time.Now().Unix(), 10)
-	sign := l.CreateSign(method, path, t)
+	sign := l.CreateSign(method, path, t, b)
 
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	if method == GET_METHOD {
+		req.Header.Set("Content-Type", "application/json")
+	} else {
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	}
 	req.Header.Set("ACCESS-KEY", l.AccessKey)
 	req.Header.Set("ACCESS-TIMESTAMP", t)
 	req.Header.Set("ACCESS-SIGN", sign)
@@ -80,8 +85,9 @@ func (l *Lightning) RequestPrivate(method string, path string, params map[string
 	return nil, string(byteArray)
 }
 
-func (l *Lightning) CreateSign(method string, path string, t string) (s string) {
-	text := t + method + path
+func (l *Lightning) CreateSign(method string, path string, t string, b string) (s string) {
+	//リクエスト時の Unix Timestamp + HTTP メソッド + リクエストのパス + リクエストボディ
+	text := t + method + path + b
 
 	// API secretでSHA256 署名を生成する
 	hash := hmac.New(sha256.New, []byte(l.AccessSecret))
