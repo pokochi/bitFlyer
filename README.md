@@ -10,15 +10,19 @@ Go 1.5
 
 ## Installation
 
-```
+```go
 go get github.com/pokochi/bitFlyer
 ```
 
 ## Operating instructions
 
+```go
+import "github.com/pokochi/bitFlyer"
+```
+
 * Public API
 
-```
+```go
 //引数なし
 b := bitFlyer.PublicApi{}
 err, s := b.GetHealth()
@@ -33,7 +37,7 @@ err, s := b.GetBoard(m)
 
 * Private API
 
-```
+```go
 //引数なし
 b := bitFlyer.NewPermissions("Your API KEY", "Your API SECRET")
 err, s := b.GetPermissions()
