@@ -13,20 +13,20 @@ type PublicApi struct {
 
 //板情報
 func (p *PublicApi) GetBoard(m map[string]string) (error, string) {
-	return p.Request(GET_METHOD, BOARD_PATH, m)
+	return p.RequestPublic(GET_METHOD, BOARD_PATH, m)
 }
 
 //Ticker
 func (p *PublicApi) GetTicker(m map[string]string) (error, string) {
-	return p.Request(GET_METHOD, TICKER_PATH, m)
+	return p.RequestPublic(GET_METHOD, TICKER_PATH, m)
 }
 
 //約定履歴
 func (p *PublicApi) GetExecutions(m map[string]string) (error, string) {
-	return p.Request(GET_METHOD, EXECUTIONS_PATH, m)
+	return p.RequestPublic(GET_METHOD, EXECUTIONS_PATH, m)
 }
 
 //取引所の状態
 func (p *PublicApi) GetHealth() (error, string) {
-	return p.Request(GET_METHOD, HEALTH_PATH, nil)
+	return p.RequestPublic(GET_METHOD, HEALTH_PATH, nil)
 }
