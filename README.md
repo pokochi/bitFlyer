@@ -4,6 +4,12 @@
 
 [APIマニュアル](https://lightning.bitflyer.jp/docs)
 
+APIは、PublicとPraivateの2種類あります。
+
+Private APIを利用する場合は、事前にbitFlyerでアカウントを作成する必要があります。
+
+Public APIはアカウント不要です。
+
 ## Go version
 
 Go 1.5
@@ -16,6 +22,13 @@ go get github.com/pokochi/bitFlyer
 
 ## Operating instructions
 
+APIのメソッドは、リクエストの頭文字を大文字にしたキャメル表記です。
+
+例：[API キーの権限を取得](https://lightning.bitflyer.jp/docs#api-キーの権限を取得)
+
+リクエストが/v1/me/getpermissionsなので、GetPermissions()を実行します。
+
+* Require
 ```go
 import "github.com/pokochi/bitFlyer"
 ```
