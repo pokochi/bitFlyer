@@ -6,9 +6,11 @@
 
 APIは、PublicとPraivateの2種類あります。
 
-Private APIを利用する場合は、事前にbitFlyerでアカウントを作成する必要があります。
+Private APIを利用する場合は、ご自身のAPI KeyとSecretが必要です。
 
-Public APIはアカウント不要です。
+そのため、事前にbitFlyerでアカウントを作成しておく必要があります。
+
+
 
 ## Go version
 
